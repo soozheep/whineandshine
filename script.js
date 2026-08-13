@@ -73,6 +73,47 @@ function closeMobileMenu() {
   document.getElementById('mobileNav').classList.remove('open');
 }
 
+/* ===== LIGHTBOX ===== */
+function openLightbox(src) {
+  const lb = document.getElementById('lightbox');
+  const img = document.getElementById('lightboxImg');
+  img.src = src;
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  const lb = document.getElementById('lightbox');
+  lb.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Intercept card image clicks so they open the lightbox instead of a new tab
+document.addEventListener('click', function (e) {
+  const link = e.target.closest('.card-img-wrap a');
+  if (link) {
+    e.preventDefault();
+    openLightbox(link.getAttribute('href'));
+  }
+});
+
+// Close on background click or close button
+document.addEventListener('DOMContentLoaded', function () {
+  const lb = document.getElementById('lightbox');
+  if (lb) {
+    lb.addEventListener('click', function (e) {
+      if (e.target === lb || e.target.classList.contains('lightbox-close')) {
+        closeLightbox();
+      }
+    });
+  }
+});
+
+// Close on Escape key
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+
 /* Audio Player */
 (function () {
   const audio = document.getElementById('audio');
